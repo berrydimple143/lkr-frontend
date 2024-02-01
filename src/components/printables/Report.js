@@ -1,104 +1,182 @@
 import { Space } from 'antd';
+import React, { useEffect } from "react";
 
-let currentBalance = 0;
+const Report = ({ agentPayment, dailyExpenses, dailyPayments, selectedDate, formatCurrency, formatDate }) => {    
+    
+    const getTotal = (pmts, type) => {
+        let total = 0;
+        if(pmts.length > 0) {
+            pmts.map((item) => {
+                if(type =="Cash" && item.method == "Cash") {
+                    total = parseFloat(total) + parseFloat(item.payment_amount);
+                }       
+                if(type =="Transfer" && item.method != "Cash") {
+                    total = parseFloat(total) + parseFloat(item.payment_amount);
+                }       
+            });
+        }
+        return total;
+    }
 
-const Report = ({ chosenClient, formatCurrency, formatDate }) => {    
- 
+    const getTotalExpenses = (exp, comm) => {
+        let total = 0;
+        if(exp.length > 0) {
+            exp.map((item) => {
+                total = parseFloat(total) + parseFloat(item.amount);                       
+            });
+        }
+        if(comm.length > 0) {
+            comm.map((item) => {
+                total = parseFloat(total) + parseFloat(item.amount);                       
+            });
+        }        
+        return total;
+    }
+
+    const getTotalNet = (pmts, exp, comm) => {
+        let totalPay = 0;
+        let totalExpense = 0;        
+        if(pmts.length > 0) {
+            pmts.map((item) => {                
+                totalPay = parseFloat(totalPay) + parseFloat(item.payment_amount);                
+            });
+        }
+        if(exp.length > 0) {
+            exp.map((item) => {
+                totalExpense = parseFloat(totalExpense) + parseFloat(item.amount);                       
+            });
+        }
+        if(comm.length > 0) {
+            comm.map((item) => {
+                totalExpense = parseFloat(totalExpense) + parseFloat(item.amount);                       
+            });
+        }
+        return totalPay - totalExpense;
+    }
+
+    useEffect(() => {
+        
+    }, []);
+
     return (
       <div className="flex flex-col p-2 bg-white">
-        <div className='flex items-center justify-center'><img className="w-[30%] h-[10%]" src="/images/logo.png" alt="logo" /></div>
-        <div className='flex items-center justify-center text-lg py-5 font-bold'>Statement of Account</div>
+        <div className='flex items-center justify-center'><img className="w-[50%] h-[10%]" src="/images/logo.png" alt="logo" /></div>
+        <div className='flex items-center justify-center text-md pt-5 font-bold'>DAILY CASH REPORT</div>
+        <div className='flex items-center justify-center text-md pb-5 font-bold uppercase'>{ formatDate(selectedDate, 'MMMM DD, YYYY') }</div>         
+
         <div className='flex items-center justify-between'>
-          <h1 className="text-lg ml-2 text-gray-700">
-              Customer Name: { chosenClient && (`${chosenClient.last_name}, ${chosenClient.first_name}`) }
-          </h1>          
-          <h1 className='text-lg text-gray-700 px-2 py-1 bg-white'>Total Balance: { computeBalance(chosenClient.price, sumOfPayments, 'PHP') }</h1>
-         
+            <h1 className="text-lg ml-2 text-gray-900 font-bold">CASH RECEIPTS</h1>          
+            <h1 className='text-lg text-gray-900 px-2 py-1 font-bold'>AMOUNT</h1>                   
+        </div>              
+        {dailyPayments && dailyPayments.map((item, index) => 
+            <div key={index}>                  
+                { item.method == "Cash" && (                   
+                    <div className='flex items-center justify-between space-x-3 uppercase text-md'>
+                        <Space size="large">
+                            <h1 className="ml-2 text-gray-700">AR {`${item.last_name}, ${item.first_name}`}</h1> 
+                            <h1 className="text-gray-700">{`monthly - ${item.area} LOT B${item.block} L${item.lot} (RD)`}</h1> 
+                        </Space>
+                        <h1 className="pr-3 text-gray-700">{ formatCurrency(item.payment_amount, 'PHP') }</h1> 
+                    </div>                 
+                )}                
+            </div>                                
+        )}  
+
+        <div className='flex items-center justify-end space-x-3 pb-3'>
+            <div className='w-full'>&nbsp;</div>
+            <div className='w-full'>&nbsp;</div>
+            <div className='w-1/2 border-b border-gray-600'>&nbsp;</div>
         </div>
-            <div className="pt-2">               
 
-                <div className="relative overflow-x-auto">
-                    <table className="w-full text-xs text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                            <tr className='flex justify-end space-x-2 border-t border-b border-gray-300'>
-                                <th scope="col" className="p-2 w-full">
-                                    Date
-                                </th>
-                                <th scope="col" className="py-2 w-full">
-                                    Area / Reference
-                                </th>
-                                <th scope="col" className="py-2 w-full flex justify-end">
-                                    Selling Price
-                                </th>
-                                <th scope="col" className="py-2 w-full flex justify-end">
-                                    Beg. Balance
-                                </th>
-                                <th scope="col" className="py-2 w-full flex justify-end">
-                                    Payment
-                                </th>
-                                <th scope="col" className="p-2 w-full flex justify-end">
-                                    Balance
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-300 flex justify-end space-x-2">
-                                <td className="p-2 w-full flex">
-                                    { formatDate(chosenClient.date_bought, 'MMMM DD, YYYY') }
-                                </td>
-                                <td className="py-2 uppercase w-full">
-                                    { chosenClient.area } Raw Lots
-                                </td>
-                                <td className="py-2 w-full flex justify-end">
-                                    { formatCurrency(chosenClient.price, 'PHP') }
-                                </td>
-                                <td className="py-2 w-full flex justify-end">
-                                    { formatCurrency(chosenClient.price, 'PHP') }
-                                </td>
-                                <td className="py-2 w-full flex justify-end">
-                                    { formatCurrency(0.00, 'PHP') }
-                                </td>
-                                <td className="p-2 w-full flex justify-end">
-                                    { formatCurrency(chosenClient.price, 'PHP') }
-                                </td>
-                            </tr>                            
-                            { allPayments && allPayments.map((pmt, index) =>              
-                                <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-300 flex justify-end space-x-2">                                    
-                                    <td className="p-2 w-full">
-                                        { formatDate(pmt.date_paid, 'MMMM DD, YYYY') }
-                                    </td>
-                                    <td className="py-2 uppercase w-full">
-                                        OR/CHECK#-CASH
-                                    </td>
-                                    <td className="py-2 w-full flex justify-end">
-                                        { formatCurrency(0.00, 'PHP') }                                                                         
-                                    </td>
-                                    <td className="py-2 w-full flex justify-end">
-                                        { index == 0 && (
-                                            formatCurrency(chosenClient.price, 'PHP')
-                                        )}
-                                        { index > 0 && (
-                                            formatCurrency(currentBalance, 'PHP')
-                                        )}
-                                    </td>
-                                    <td className="py-2 w-full flex justify-end">
-                                        { formatCurrency(pmt.amount, 'PHP') }
-                                    </td>
-                                    <td className="p-2 w-full flex justify-end">
-                                        { index == 0 && (
-                                            formatCurrency(currentBalance = chosenClient.price - pmt.amount, 'PHP')
-                                        )}
-                                        { index > 0 && (                                            
-                                            formatCurrency(currentBalance -= pmt.amount, 'PHP')
-                                        )}                                     
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
-                </div>
+        <div className='flex items-center justify-end space-x-3 mb-6'>
+            <div className='w-full'>&nbsp;</div>
+            <div className='w-full'>&nbsp;</div>
+            <div className='w-full text-xl font-bold text-end italic pr-3'>TOTAL &nbsp;&nbsp;{formatCurrency(getTotal(dailyPayments, 'Cash'), 'PHP')}</div>
+        </div>
+        
+        <div className='flex items-center justify-between'>
+            <h1 className="text-lg ml-2 text-gray-900 font-bold">BANK TRANSFER:</h1>                 
+        </div>  
+        {dailyPayments && dailyPayments.map((item, index) => 
+            <div key={index}>                
+                { item.method != "Cash" && (                    
+                    <div className='flex items-center justify-between space-x-3 uppercase text-md'>
+                        <Space size="large">
+                            <h1 className="ml-2 text-gray-700">AR {`${item.last_name}, ${item.first_name}`}</h1> 
+                            <h1 className="text-gray-700">{`monthly - ${item.area} LOT B${item.block} L${item.lot} (RD)`}</h1> 
+                        </Space>
+                        <h1 className="pr-3 text-gray-700">{ formatCurrency(item.payment_amount, 'PHP') }</h1> 
+                    </div>                 
+                )}
+            </div>   
+        )}
+        <div className='flex items-center justify-end space-x-3 pb-3'>
+            <div className='w-full'>&nbsp;</div>
+            <div className='w-full'>&nbsp;</div>
+            <div className='w-1/2 border-b border-gray-600'>&nbsp;</div>
+        </div>
+        <div className='flex items-center justify-end space-x-3 mb-6'>
+            <div className='w-1/2'>&nbsp;</div>
+            <div className='w-1/2'>&nbsp;</div>
+            <div className='w-full text-lg font-bold text-end pr-3'>TOTAL BANK TRANSFER &nbsp;&nbsp;{formatCurrency(getTotal(dailyPayments, 'Transfer'), 'PHP')}</div>
+        </div>
+        <div className='flex items-center justify-between'>
+            <h1 className="text-lg ml-2 text-gray-900 font-bold">LESS: CASH DISBURSEMENTS:</h1>                 
+        </div>
+        {agentPayment && agentPayment.map((item, index) => 
+            <div key={index}>                               
+                <div className='flex items-center justify-between space-x-3 uppercase text-md'>
+                    <Space size="large">
+                        <h1 className="ml-2 text-gray-700">{ item.received_by }</h1> 
+                        <h1 className="ml-2 text-gray-700">{`COMM - ${item.last_name}`}</h1> 
+                    </Space>                                        
+                    <h1 className="pr-3 text-gray-700">{ formatCurrency(item.amount, 'PHP') }</h1> 
+                </div>                     
+            </div>                                
+        )}
+        {dailyExpenses && dailyExpenses.map((item, index) => 
+            <div key={index}>                               
+                <div className='flex items-center justify-between space-x-3 uppercase text-md'>
+                    <h1 className="ml-2 text-gray-700">{ item.description }</h1>                     
+                    <h1 className="pr-3 text-gray-700">{ formatCurrency(item.amount, 'PHP') }</h1> 
+                </div>                     
+            </div>                                
+        )} 
+        <div className='flex items-center justify-end space-x-3 pb-3'>
+            <div className='w-full'>&nbsp;</div>
+            <div className='w-full'>&nbsp;</div>
+            <div className='w-2/3 border-t text-right border-gray-600 text-md uppercase font-bold pr-3'>TOTAL &nbsp;&nbsp;&nbsp;&nbsp;{ formatCurrency(getTotalExpenses(dailyExpenses, agentPayment), 'PHP') }</div>
+        </div>
+        
+        <div className='flex items-center justify-end space-x-3 mb-6 mt-4'>
+            <div className='w-1/2'>&nbsp;</div>
+            <div className='w-1/2'>&nbsp;</div>
+            <div className='w-full text-red-500 text-xl font-bold text-end italic pr-3'>TOTAL NET CASH: &nbsp;&nbsp;{formatCurrency(getTotalNet(dailyPayments, dailyExpenses, agentPayment, 'Cash'), 'PHP')}</div>
+        </div>
 
+        <div className='flex items-center text-md justify-end space-x-3 mt-5'>
+            <div className='w-1/2 pl-5'>Prepared by:</div>
+            <div className='w-1/2'>Reviewed by:</div>            
+        </div>
+
+        <div className='flex items-center text-md justify-end space-x-3 mb-8 mt-4'>
+            <div className='w-1/2 pl-28'>
+                <input type="text" className='outline-none border-none text-lg font-bold placeholder-black' placeholder="ROD AGTON" />
             </div>
+            <div className='w-1/2 pl-24'>
+                <input type="text" className='outline-none border-none text-lg font-bold placeholder-black' placeholder="MARREON A. GALON" />
+            </div>            
+        </div>
+        <div className='flex items-center text-md justify-end space-x-3'>
+            <div className='w-1/2 pl-5'>
+                <Space size="small">
+                    Received by: 
+                    <input type="text" className='outline-none border-none text-lg font-bold placeholder-black' placeholder="JOYCE" />
+                </Space>                
+            </div>   
+            <div className='w-1/2'>&nbsp;</div>           
+        </div>
+        
       </div>
     );
 };

@@ -35,10 +35,7 @@ export default function ExpensesForm({
         </Form.Item>
         <Form.Item label={<label style={{ color: "black" }}>Amount</label>} name="amount" rules={[{ required: true, message: 'Amount is required.' }]}>
             <input type="text" className="main-input" id="amount" placeholder="Type amount here..." />
-        </Form.Item>
-        <Form.Item label={<label style={{ color: "black" }}>Percentage</label>} name="percentage" rules={[{ required: false }]}>
-            <input type="text" className="main-input" id="percentage" placeholder="Type percentage here..." />
-        </Form.Item>
+        </Form.Item>        
         <Form.Item>
             <Space>
                 <button type="submit" className="main-btn"><Space><SaveOutlined />{buttonText}</Space></button>

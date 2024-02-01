@@ -8,7 +8,10 @@ export default function PrintReport({
     showPrintModal,
     printStatement,
     componentRef,   
-    chosenClient,    
+    dailyExpenses,    
+    dailyPayments,
+    agentPayment,
+    selectedDate,
     formatCurrency,
     formatDate,
     closePrint,
@@ -21,7 +24,7 @@ export default function PrintReport({
           <div
             className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
           >
-            <div className="relative w-[90%] h-screen my-1 mx-auto">
+            <div className="relative w-[70%] h-screen my-1 mx-auto">
               {/*content*/}
               <div className="border-0 rounded-none relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 {/*header*/}
@@ -32,10 +35,10 @@ export default function PrintReport({
                 <div className="relative p-6 flex-auto">                
                   <ReportCanvas 
                     ref={componentRef} 
-                    allPayments={allPayments} 
-                    sumOfPayments={sumOfPayments}
-                    chosenClient={chosenClient} 
-                    computeBalance={computeBalance}
+                    dailyExpenses={dailyExpenses} 
+                    dailyPayments={dailyPayments}
+                    agentPayment={agentPayment}
+                    selectedDate={selectedDate}
                     formatCurrency={formatCurrency}
                     formatDate={formatDate}
                  />                  

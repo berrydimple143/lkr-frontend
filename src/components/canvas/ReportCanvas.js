@@ -6,7 +6,10 @@ const ReportCanvas = React.forwardRef((props, ref) => {
   return (
     <div ref={ref}>
         <Report 
-            chosenClient={props.chosenClient} 
+            dailyExpenses={props.dailyExpenses} 
+            dailyPayments={props.dailyPayments} 
+            agentPayment={props.agentPayment} 
+            selectedDate={props.selectedDate}
             formatCurrency={props.formatCurrency}
             formatDate={props.formatDate}
         />

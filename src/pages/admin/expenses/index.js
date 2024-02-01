@@ -37,7 +37,10 @@ export default function Client({info, expenses })
     const [form] = Form.useForm();
     const componentRef = useRef();
     const [showCanvas, setShowCanvas] = useState(false);
-    const [chosenClient, setChosenClient] = useState(false);
+    const [dailyExpenses, setDailyExpenses] = useState([]);
+    const [dailyPayments, setDailyPayments] = useState([]);
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [agentPayment, setAgentPayment] = useState([]);
 
     const printStatement = useReactToPrint({
         content: () => componentRef.current,
@@ -81,9 +84,12 @@ export default function Client({info, expenses })
     }   
 
     const handlePrint = async (dt) => {
-        const { expenses, payments, agents } = await getReports(dt);
-        console.log(payments);
-        //setShowPrintModal(true);
+        setSelectedDate(dt);
+        const { expenses, payments, expense } = await getReports(dt);    
+        setDailyExpenses(expenses);   
+        setAgentPayment(expense); 
+        setDailyPayments(payments);
+        setShowPrintModal(true);
     }   
 
     const closePrint = () =>
@@ -185,7 +191,10 @@ export default function Client({info, expenses })
                 closePrint={closePrint}
                 printStatement={printStatement}
                 componentRef={componentRef}                
-                chosenClient={chosenClient}                 
+                dailyExpenses={dailyExpenses}  
+                dailyPayments={dailyPayments}      
+                agentPayment={agentPayment}
+                selectedDate={selectedDate}
                 formatCurrency={formatCurrency}
                 formatDate={formatDate}
                 mtitle="Print Report"
