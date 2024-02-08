@@ -56,7 +56,7 @@ export default function Client({info, expenses })
       setShowModal(false);
 
       if(mode == "add") {            
-            const { expense } = await addExpense(values);            
+            const { expense } = await addExpense(values);                    
             if(expense) {
                 message.success("Expense added successfully.");
                 router.push("/admin/expenses");

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Space } from 'antd';
 import ReportCanvas from "../canvas/ReportCanvas";
-import { PrinterOutlined } from '@ant-design/icons';
+import { PrinterOutlined, CloseCircleOutlined } from '@ant-design/icons';
 
 export default function PrintReport({
     children,
@@ -58,7 +58,7 @@ export default function PrintReport({
                     type="button"
                     onClick={closePrint}
                   >
-                    Close
+                    <Space><CloseCircleOutlined />Close</Space>
                   </button>
                   </Space>
                 </div>

@@ -1,13 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import * as cookie from 'cookie';
 import { useRouter } from 'next/router';
 import { message, Form } from 'antd';
+import { useReactToPrint } from 'react-to-print';
 import AdminLayout from '../../../components/layouts/AdminLayout';
 import AreaTable from '../../../components/tables/area';
 import AreaForm from '../../../components/forms/area';
 import MainModal from '../../../components/modals/MainModal';
 import DeleteModal from '../../../components/modals/DeleteModal';
-import { getAreas, addArea, updateArea, getArea, deleteArea } from '../../../services/area';
+import AreaTab from "@/components/tabs/AreaTab";
+import PrintAreaModal from "@/components/modals/PrintAreaModal";
+import { formatDate, formatCurrency, totalPayment, computeBalance, totalCollectibles } from '@/services/helpers';
+import { getAreas, addArea, updateArea, getArea, deleteArea, getCollectablesByArea } from '../../../services/area';
 
 export async function getServerSideProps({ req }) {
   const cookieData = cookie.parse(req.headers.cookie || '');
@@ -18,7 +22,7 @@ export async function getServerSideProps({ req }) {
   }
 }
 
-export default function Client({info, areas })
+export default function Area({info, areas })
 {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [modalTitle, setModalTitle] = useState('Add Area');
@@ -28,6 +32,26 @@ export default function Client({info, areas })
     const [showModal, setShowModal] = useState(false);
     const router = useRouter();
     const [form] = Form.useForm();
+    const [selectedAreaId, setSelectedAreaId] = useState(null);
+    const [showPrintModal, setShowPrintModal] = useState(false);
+    const componentRef = useRef();
+    const [selectedCollectables, setSelectedCollectables] = useState([]);
+    const [selectedArea, setSelectedArea] = useState([]);
+
+    const printStatement = useReactToPrint({
+        content: () => componentRef.current,
+        onBeforeGetContent: () => {
+            
+        },
+        onAfterPrint: () => {
+
+        },
+    });
+
+    const closePrint = () =>
+    {
+        setShowPrintModal(false);
+    }
 
     const onFinish = async (values) => {
       setShowModal(false);
@@ -103,6 +127,10 @@ export default function Client({info, areas })
         setShowModal(false);
     }
 
+    const selectArea = (id) => {            
+        setSelectedAreaId(id);        
+    }
+
     return (
         <AdminLayout title="Lion King Realty Administration Panel - Areas Page" chosenMenu="7">
               <DeleteModal
@@ -135,6 +163,20 @@ export default function Client({info, areas })
                       getArea={getArea}
                   />
             </MainModal>
+            <PrintAreaModal
+                showPrintModal={showPrintModal}
+                closePrint={closePrint}
+                printStatement={printStatement}
+                componentRef={componentRef}
+                selectedCollectables={selectedCollectables}                    
+                selectedArea={selectedArea} 
+                totalPayment={totalPayment}
+                totalCollectibles={totalCollectibles}
+                computeBalance={computeBalance}
+                formatCurrency={formatCurrency}
+                formatDate={formatDate}
+                mtitle="Collectibles"
+            />
             <AreaTable
                 title="Areas Table"
                 tableData={areas}
@@ -147,8 +189,25 @@ export default function Client({info, areas })
                 setSelectedItemForEdit={setSelectedItemForEdit}
                 setModalTitle={setModalTitle}
                 setMode={setMode}
+                selectArea={selectArea}
                 setPage="area"
             />
+             { selectedAreaId !== null && (
+                <AreaTab 
+                    selectedAreaId={selectedAreaId}                    
+                    getCollectablesByArea={getCollectablesByArea}                               
+                    formatDate={formatDate}
+                    formatCurrency={formatCurrency}         
+                    totalPayment={totalPayment}     
+                    computeBalance={computeBalance}  
+                    setShowPrintModal={setShowPrintModal}
+                    setSelectedCollectables={setSelectedCollectables}
+                    setSelectedArea={setSelectedArea}
+                    selectedCollectables={selectedCollectables}                    
+                    selectedArea={selectedArea}
+                    totalCollectibles={totalCollectibles}
+                />
+            )} 
         </AdminLayout>
     );
 }

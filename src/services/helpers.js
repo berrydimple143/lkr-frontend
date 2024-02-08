@@ -12,12 +12,6 @@ export const sumOfValues = (arr) =>
   return arr.reduce((sum, a) => sum + a, 0);
 }
 
-export const computeBalance = (price, amountPaid, cur) =>
-{
-  const diff = price - amountPaid;
-  return currencyFormatter.format(diff, { code: cur });
-}
-
 export const uploadURL = () =>
 {
   return `${process.env.NEXT_PUBLIC_API}/api/documents/file-upload`;
@@ -31,6 +25,34 @@ export const processSales = (albums) =>
     });
     return total;
 };
+
+export const totalPayment = (payments) =>
+{
+    let total = 0;
+    payments.map((item, index) => {
+        total = parseFloat(total) + parseFloat(item.amount);
+    });
+    return total;
+};
+
+export const computeBalance = (price, amountPaid, cur) =>
+{
+  const diff = price - amountPaid;
+  return currencyFormatter.format(diff, { code: cur });
+}
+
+export const totalCollectibles = (collectibles) => 
+{
+    let total = 0;    
+    collectibles.map((item, index) => {
+        let totalPay = 0;
+        item.payments.map((item2, index) => {
+          totalPay = parseFloat(totalPay) + parseFloat(item2.amount);
+        });
+        total += (parseFloat(item.contact.price) - parseFloat(totalPay));
+    });
+    return total;
+}
 
 export const formatDate = (date, fmt) =>
 {

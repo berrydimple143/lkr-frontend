@@ -1,20 +1,21 @@
 import React, { useState } from "react";
 import { Space } from 'antd';
-import PrintCanvas from "../canvas/PrintCanvas";
+import CollectibleCanvas from "../canvas/CollectibleCanvas";
 import { PrinterOutlined, CloseCircleOutlined } from '@ant-design/icons';
 
-export default function PrintModal({
+export default function PrintAreaModal({
     children,
     showPrintModal,
     printStatement,
     componentRef,
-    allPayments,
-    sumOfPayments,
-    chosenClient,
+    selectedCollectables,
+    totalCollectibles,
+    selectedArea,
     computeBalance,
     formatCurrency,
     formatDate,
     closePrint,
+    totalPayment,
     mtitle
 }) {
   return (
@@ -25,25 +26,22 @@ export default function PrintModal({
             className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
           >
             <div className="relative w-[90%] h-screen my-1 mx-auto">
-              {/*content*/}
               <div className="border-0 rounded-none relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                {/*header*/}
                 <div className="flex items-center justify-center p-1 uppercase text-lg">
                   &nbsp;
                 </div>
-                {/*body*/}
                 <div className="relative p-6 flex-auto">                
-                  <PrintCanvas 
+                  <CollectibleCanvas 
                     ref={componentRef} 
-                    allPayments={allPayments} 
-                    sumOfPayments={sumOfPayments}
-                    chosenClient={chosenClient} 
+                    selectedCollectables={selectedCollectables} 
+                    totalCollectibles={totalCollectibles}
+                    selectedArea={selectedArea}
                     computeBalance={computeBalance}
                     formatCurrency={formatCurrency}
                     formatDate={formatDate}
+                    totalPayment={totalPayment}
                  />                  
                 </div>
-                {/*footer*/}
                 <div className="flex items-center justify-end p-6 rounded-b">
                   <Space>
                   <button

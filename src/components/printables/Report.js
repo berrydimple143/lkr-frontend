@@ -18,22 +18,18 @@ const Report = ({ agentPayment, dailyExpenses, dailyPayments, selectedDate, form
         return total;
     }
 
-    const getTotalExpenses = (exp, comm) => {
+    const getTotalExpenses = (exp) => {
         let total = 0;
         if(exp.length > 0) {
             exp.map((item) => {
                 total = parseFloat(total) + parseFloat(item.amount);                       
             });
         }
-        if(comm.length > 0) {
-            comm.map((item) => {
-                total = parseFloat(total) + parseFloat(item.amount);                       
-            });
-        }        
+
         return total;
     }
 
-    const getTotalNet = (pmts, exp, comm) => {
+    const getTotalNet = (pmts, exp) => {
         let totalPay = 0;
         let totalExpense = 0;        
         if(pmts.length > 0) {
@@ -45,12 +41,7 @@ const Report = ({ agentPayment, dailyExpenses, dailyPayments, selectedDate, form
             exp.map((item) => {
                 totalExpense = parseFloat(totalExpense) + parseFloat(item.amount);                       
             });
-        }
-        if(comm.length > 0) {
-            comm.map((item) => {
-                totalExpense = parseFloat(totalExpense) + parseFloat(item.amount);                       
-            });
-        }
+        }        
         return totalPay - totalExpense;
     }
 
@@ -122,18 +113,8 @@ const Report = ({ agentPayment, dailyExpenses, dailyPayments, selectedDate, form
         </div>
         <div className='flex items-center justify-between'>
             <h1 className="text-lg ml-2 text-gray-900 font-bold">LESS: CASH DISBURSEMENTS:</h1>                 
-        </div>
-        {agentPayment && agentPayment.map((item, index) => 
-            <div key={index}>                               
-                <div className='flex items-center justify-between space-x-3 uppercase text-md'>
-                    <Space size="large">
-                        <h1 className="ml-2 text-gray-700">{ item.received_by }</h1> 
-                        <h1 className="ml-2 text-gray-700">{`COMM - ${item.last_name}`}</h1> 
-                    </Space>                                        
-                    <h1 className="pr-3 text-gray-700">{ formatCurrency(item.amount, 'PHP') }</h1> 
-                </div>                     
-            </div>                                
-        )}
+        </div>        
+
         {dailyExpenses && dailyExpenses.map((item, index) => 
             <div key={index}>                               
                 <div className='flex items-center justify-between space-x-3 uppercase text-md'>
@@ -145,13 +126,13 @@ const Report = ({ agentPayment, dailyExpenses, dailyPayments, selectedDate, form
         <div className='flex items-center justify-end space-x-3 pb-3'>
             <div className='w-full'>&nbsp;</div>
             <div className='w-full'>&nbsp;</div>
-            <div className='w-2/3 border-t text-right border-gray-600 text-md uppercase font-bold pr-3'>TOTAL &nbsp;&nbsp;&nbsp;&nbsp;{ formatCurrency(getTotalExpenses(dailyExpenses, agentPayment), 'PHP') }</div>
+            <div className='w-2/3 border-t text-right border-gray-600 text-md uppercase font-bold pr-3'>TOTAL &nbsp;&nbsp;&nbsp;&nbsp;{ formatCurrency(getTotalExpenses(dailyExpenses), 'PHP') }</div>
         </div>
         
         <div className='flex items-center justify-end space-x-3 mb-6 mt-4'>
             <div className='w-1/2'>&nbsp;</div>
             <div className='w-1/2'>&nbsp;</div>
-            <div className='w-full text-red-500 text-xl font-bold text-end italic pr-3'>TOTAL NET CASH: &nbsp;&nbsp;{formatCurrency(getTotalNet(dailyPayments, dailyExpenses, agentPayment, 'Cash'), 'PHP')}</div>
+            <div className='w-full text-red-500 text-xl font-bold text-end italic pr-3'>TOTAL NET CASH: &nbsp;&nbsp;{formatCurrency(getTotalNet(dailyPayments, dailyExpenses), 'PHP')}</div>
         </div>
 
         <div className='flex items-center text-md justify-end space-x-3 mt-5'>

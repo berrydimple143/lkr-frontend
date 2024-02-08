@@ -16,6 +16,7 @@ const AreaTable = ({
   setSelectedItemForEdit,
   setPage,
   setModalTitle,
+  selectArea,
   setMode
 }) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -121,6 +122,15 @@ const AreaTable = ({
           sorter: (a, b) => a.name.localeCompare(b.name),
           sortDirections: ['descend', 'ascend'],
           multiple: 2,
+          onCell: (record, index) => {
+              return {
+                  onClick: (ev) => {
+                    setSelectedRowKeys([]);
+                    setSelectedRowKeys([record.id, 1]);
+                    selectArea(record.id);
+                  },
+              };
+          },
         },        
         {
           title: 'Action',

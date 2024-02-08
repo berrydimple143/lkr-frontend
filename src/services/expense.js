@@ -58,6 +58,7 @@ export const addExpense = async (values) =>
     try
     {
         const { data } = await axios.post(`${baseURL}/create`, values, header);
+        console.log(data);
         return data;
     } catch (error)
     {

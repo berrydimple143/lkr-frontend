@@ -13,7 +13,7 @@ const ExpensesTab = ({
       const [selectedExpenses, setSelectedExpenses] = useState([]);
     
       const getInfo = async (dt) => {        
-          const { expenses } = await getExpensesByDate(dt);          
+          const { expenses } = await getExpensesByDate(dt);           
           setSelectedExpenses(expenses);
       }
 
