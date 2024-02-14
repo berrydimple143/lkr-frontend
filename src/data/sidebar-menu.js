@@ -45,6 +45,11 @@ export const sidebarmenu = [
             label: 'Expenses'
         },
         {
+            key: 9,
+            icon: React.createElement(UserOutlined),
+            label: 'Reports'
+        },
+        {
           key: 6,
           icon: React.createElement(LogoutOutlined),
           label: 'Logout'

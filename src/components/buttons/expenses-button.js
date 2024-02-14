@@ -1,7 +1,7 @@
 import { Tooltip, Space } from 'antd';
 import { PrinterOutlined, PlusCircleOutlined } from '@ant-design/icons';
 
-const ExpenseButton = ({ text, handleAdd, handlePrint }) =>
+const ExpenseButton = ({ text, handleAdd, handlePrint, page }) =>
 {
     return (
         <div key={`${text}`}>                      
@@ -17,17 +17,20 @@ const ExpenseButton = ({ text, handleAdd, handlePrint }) =>
                         <Space><PrinterOutlined />Print Report</Space>
                     </button>   
                 </Tooltip>  
-                <Tooltip title="Add expenses for this date" placement="top">
-                    <button
-                        onClick={() => {
-                            handleAdd(text);
-                        }}
-                        type="button"
-                        className="success-btn"
-                    >
-                        <Space><PlusCircleOutlined />Add Expense</Space>
-                    </button>   
-                </Tooltip>  
+                
+                { page != "reports" && (
+                    <Tooltip title="Add expenses for this date" placement="top">
+                        <button
+                            onClick={() => {
+                                handleAdd(text);
+                            }}
+                            type="button"
+                            className="success-btn"
+                        >
+                            <Space><PlusCircleOutlined />Add Expense</Space>
+                        </button>   
+                    </Tooltip> 
+                )}
             </Space>                    
         </div>
     );
