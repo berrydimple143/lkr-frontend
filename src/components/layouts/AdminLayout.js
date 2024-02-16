@@ -74,7 +74,7 @@ const AdminLayout = ({ children, title, chosenMenu }) => {
               if(key == 2) { router.push("/admin/users"); }
               if(key == 3) { router.push("/admin/clients"); }
               if(key == 4) { router.push("/admin/agents"); }
-              if(key == 5) { router.push("/admin/supervisors"); }              
+              if(key == 5) { router.push("/admin/managers"); }              
               if(key == 6) { router.push("/logout"); }
               if(key == 7) { router.push("/admin/areas"); }
               if(key == 8) { router.push("/admin/expenses"); }
