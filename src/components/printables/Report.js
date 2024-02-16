@@ -1,8 +1,9 @@
 import { Space } from 'antd';
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 
 const Report = ({ agentPayment, dailyExpenses, dailyPayments, selectedDate, formatCurrency, formatDate }) => {    
-    
+    const netValue = useRef();
+
     const getTotal = (pmts, type) => {
         let total = 0;
         if(pmts.length > 0) {
@@ -46,7 +47,7 @@ const Report = ({ agentPayment, dailyExpenses, dailyPayments, selectedDate, form
     }
 
     useEffect(() => {
-        
+        netValue.current.value = formatCurrency(getTotalNet(dailyPayments, dailyExpenses), 'PHP');
     }, []);
 
     return (
@@ -132,7 +133,10 @@ const Report = ({ agentPayment, dailyExpenses, dailyPayments, selectedDate, form
         <div className='flex items-center justify-end space-x-3 mb-6 mt-4'>
             <div className='w-1/2'>&nbsp;</div>
             <div className='w-1/2'>&nbsp;</div>
-            <div className='w-full text-red-500 text-xl font-bold text-end italic pr-3'>TOTAL NET CASH: &nbsp;&nbsp;{formatCurrency(getTotalNet(dailyPayments, dailyExpenses), 'PHP')}</div>
+            <div className='w-special text-red-500 font-bold text-xl italic pr-3 flex justify-between'>
+                TOTAL NET CASH:                    
+                <input type="text" ref={netValue} className='bg-transparent italic outline-none border-none text-xl p-0 m-0 font-bold placeholder-black' placeholder="PHP 0.00" />
+           </div>
         </div>
 
         <div className='flex items-center text-md justify-end space-x-3 mt-5'>

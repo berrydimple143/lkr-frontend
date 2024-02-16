@@ -170,7 +170,7 @@ const ReportsHistory = ({
                 size="small"
                 pagination={{
                   position: ['bottomLeft'],
-                  pageSize: 10,
+                  pageSize: selectedExpenses.length,
                   defaultCurrent: 1,
                   total: selectedExpenses.length,
                 }}                

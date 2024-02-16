@@ -22,7 +22,7 @@ export async function getServerSideProps({ req }) {
   }
 }
 
-export default function Report({info, expenses })
+export default function Payment({info, expenses })
 {
     const [selectedExpenseDate, setSelectedExpenseDate] = useState(null);
     const [transactionDate, setTransactionDate] = useState(null);
@@ -199,7 +199,7 @@ export default function Report({info, expenses })
                 mtitle="Print Report"
             />
             <ReportsTable
-                title="Daily Reports"                
+                title="Payments Table"                
                 tableData={expenses}
                 setSelectedExpenseDate={setSelectedExpenseDate}
                 setShowModal={setShowModal}

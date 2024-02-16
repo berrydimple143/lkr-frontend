@@ -47,7 +47,7 @@ export const sidebarmenu = [
         {
             key: 9,
             icon: React.createElement(UserOutlined),
-            label: 'Reports'
+            label: 'Payments'
         },
         {
           key: 6,

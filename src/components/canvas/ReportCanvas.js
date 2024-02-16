@@ -17,6 +17,6 @@ const ReportCanvas = React.forwardRef((props, ref) => {
   );
 });
 
-ReportCanvas.displayName = 'LKRealty';
+ReportCanvas.displayName = 'LKRealty - Daily Reports';
 
 export default ReportCanvas;

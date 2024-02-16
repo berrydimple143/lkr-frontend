@@ -113,6 +113,9 @@
   background-image: linear-gradient(#ff2222, #ff6666);
   text-decoration: none;
 }
+.css-dev-only-do-not-override-8hy14p.ant-tabs-card >.ant-tabs-nav .ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #fff;
+}
 .ant-tabs ant-tabs-top ant-tabs-card css-dev-only-do-not-override-8hy14p {
   padding: 5px;
 }
@@ -133,4 +136,9 @@
 }
 .shadow-2 {
   text-shadow: 2px 2px gray;
+}
+.w-special {
+  width: 62rem;  
+  position: relative;
+  right: -140px;
 }
