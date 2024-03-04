@@ -1,17 +1,24 @@
 import React from 'react';
 import {
+    DashboardOutlined,
     AreaChartOutlined,
     LogoutOutlined,
     UsergroupAddOutlined,
     UserOutlined,
     BookOutlined,
-    BarsOutlined
+    BarsOutlined,
+    BankOutlined,
+    UserSwitchOutlined,
+    UserAddOutlined,
+    EnvironmentOutlined,
+    EuroOutlined,
+    FundOutlined
 } from '@ant-design/icons';
 
 export const sidebarmenu = [
         {
           key: 1,
-          icon: React.createElement(AreaChartOutlined),
+          icon: React.createElement(DashboardOutlined),
           label: 'Dashboard'
         },
         // {
@@ -26,27 +33,27 @@ export const sidebarmenu = [
         },
         {
           key: 4,
-          icon: React.createElement(BookOutlined),
+          icon: React.createElement(UserSwitchOutlined),
           label: 'Agents'
         },
         {
           key: 5,
-          icon: React.createElement(BarsOutlined),
+          icon: React.createElement(UserAddOutlined),
           label: 'Unit Managers'
         },
         {
             key: 7,
-            icon: React.createElement(UserOutlined),
+            icon: React.createElement(EnvironmentOutlined),
             label: 'Areas'
         },
         {
             key: 8,
-            icon: React.createElement(UserOutlined),
+            icon: React.createElement(FundOutlined),
             label: 'Expenses'
         },
         {
             key: 9,
-            icon: React.createElement(UserOutlined),
+            icon: React.createElement(EuroOutlined),
             label: 'Payments'
         },
         {

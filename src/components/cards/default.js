@@ -1,6 +1,6 @@
 import { UsergroupAddOutlined, BookOutlined } from '@ant-design/icons';
 import { Card, Col, Row, Statistic } from 'antd';
-const DefaultCard = ({ user_count, client_count, agent_count, areas_count }) => (
+const DefaultCard = ({ user_count, client_count, agent_count, areas_count, managers_count }) => (
   <Row gutter={16}>
     <Col span={6}>
       <Card
@@ -83,8 +83,8 @@ const DefaultCard = ({ user_count, client_count, agent_count, areas_count }) => 
         }}
       >
         <Statistic
-          title="Total Unit Supervisors"
-          value={client_count}
+          title="Total Unit Managers"
+          value={managers_count}
           precision={0}
           valueStyle={{
             color: '#cf1322',

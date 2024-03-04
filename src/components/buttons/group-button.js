@@ -8,6 +8,7 @@ const GroupButton = ({
     handleEdit,
     handleDelete,
     handlePayment,
+    handleAgent,
     page
 }) =>
 {
@@ -21,6 +22,15 @@ const GroupButton = ({
               }}
               type="button"
               className="success-btn"><Space><PlusCircleOutlined />Add Payment</Space></button>
+            </Tooltip>
+          )}
+          { page === "manager" && (
+            <Tooltip title="Add Agent" placement="top">
+              <button onClick={() => {
+                handleAgent(text);
+              }}
+              type="button"
+              className="success-btn"><Space><PlusCircleOutlined />Add Agent</Space></button>
             </Tooltip>
           )}
           <Tooltip title="Edit" placement="top">
