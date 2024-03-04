@@ -59,12 +59,12 @@ export const data = {
     {
       label: 'Sales',
       data: [50, 100, 90, 70, 300, 50, 100, 90, 70, 300, 200, 130],
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      backgroundColor: 'rgba(0, 255, 0, 0.9)',
     },
     {
       label: 'Expenses',
       data: [150, 120, 95, 30, 200, 150, 105, 50, 40, 90, 160, 110],
-      backgroundColor: 'rgba(53, 162, 235, 0.5)',
+      backgroundColor: 'rgba(255, 0, 0, 0.9)',
     },
   ],
 };

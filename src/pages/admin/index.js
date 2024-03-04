@@ -69,8 +69,8 @@ export default function Admin({ info, users, clients, agents, areas, managers })
             <div className='flex flex-col w-full mt-5 p-2 border border-dashed border-gray-400'>
             <Select
               className="main-input"
-              style={{ width: '270px' }} 
-              placeholder="Select a year...">
+              style={{ width: '200px' }} 
+              placeholder="Select a year here...">
               {" "}
               {years && years.map((item, index) => <Select.Option value={item} key={index}>{item}</Select.Option>)}                 
               </Select>
