@@ -28,7 +28,7 @@ export const options = {
     },
     title: {
       display: true,
-      text: 'Monthly Sales and Expenses',
+      text: 'Monthly Payments and Expenses',
     },
   },
   scales: {
@@ -57,14 +57,14 @@ export const data = {
   labels,
   datasets: [
     {
-      label: 'Sales',
+      label: 'Payments',
       data: [50, 100, 90, 70, 300, 50, 100, 90, 70, 300, 200, 130],
-      backgroundColor: 'rgba(0, 255, 0, 0.9)',
+      backgroundColor: '#1B9B09',
     },
     {
       label: 'Expenses',
       data: [150, 120, 95, 30, 200, 150, 105, 50, 40, 90, 160, 110],
-      backgroundColor: 'rgba(255, 0, 0, 0.9)',
+      backgroundColor: '#C9270A',
     },
   ],
 };

@@ -66,7 +66,7 @@ export default function Admin({ info, users, clients, agents, areas, managers })
               areas_count={areas.length} 
               managers_count={managers.length} 
             />
-            <div className='flex flex-col w-full mt-5 p-2 border border-dashed border-gray-400'>
+            <div className='flex flex-col w-full mt-5 p-2 border border-dashed border-gray-400 bg-red-100'>
             <Select
               className="main-input"
               style={{ width: '200px' }} 
