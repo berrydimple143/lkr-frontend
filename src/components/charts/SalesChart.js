@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -20,25 +20,9 @@ ChartJS.register(
   Legend
 );
 
-export const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top',
-    },
-    title: {
-      display: true,
-      text: 'Monthly Payments and Expenses',
-    },
-  },
-  scales: {
-    y: {
-        suggestedMax: 350,
-    }
-  }
-};
-
-const labels = [
+export default function SalesChart({ width, height, expensesPerMonth, maxExpenses }) {
+   
+      const labels = [
         'January', 
         'February', 
         'March', 
@@ -52,24 +36,43 @@ const labels = [
         'November',
         'December',
     ];
+    const options = {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'top',
+        },
+        title: {
+          display: true,
+          text: 'Monthly Payments and Expenses',
+        },
+      },
+      scales: {
+        y: {
+            suggestedMax: maxExpenses + 20,
+        }
+      }
+    };    
+    const data = {
+      labels,
+      datasets: [
+        {
+          label: 'Payments',
+          data: [50, 100, 90, 70, 300, 50, 100, 90, 70, 300, 200, 130],
+          backgroundColor: '#1B9B09',
+        },
+        {
+          label: 'Expenses',
+          data: [
+              expensesPerMonth[0], expensesPerMonth[1], expensesPerMonth[2], 
+              expensesPerMonth[3], expensesPerMonth[4], expensesPerMonth[5], 
+              expensesPerMonth[6], expensesPerMonth[7], expensesPerMonth[8], 
+              expensesPerMonth[9], expensesPerMonth[10], expensesPerMonth[11]],
+          backgroundColor: '#C9270A',
+        },
+      ],
+    };  
 
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: 'Payments',
-      data: [50, 100, 90, 70, 300, 50, 100, 90, 70, 300, 200, 130],
-      backgroundColor: '#1B9B09',
-    },
-    {
-      label: 'Expenses',
-      data: [150, 120, 95, 30, 200, 150, 105, 50, 40, 90, 160, 110],
-      backgroundColor: '#C9270A',
-    },
-  ],
-};
-
-export default function SalesChart({ width, height }) {
   return <Bar 
             width={width}
             height={height}

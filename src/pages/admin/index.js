@@ -6,6 +6,7 @@ import { getUsers } from '@/services/user';
 import { getClients } from '@/services/client';
 import { getAgents } from '@/services/agent';
 import { getAreas } from '@/services/area';
+import { getMonthlyExpenses } from '@/services/common';
 import { getManagers } from '@/services/manager';
 import React, { useState, useEffect } from "react";
 import { Select } from 'antd';
@@ -47,7 +48,7 @@ export async function getServerSideProps({ req }) {
   const { clients } = await getClients(cookieData.token);
   const { areas } = await getAreas(cookieData.token);
   const { agents } = await getAgents(cookieData.token);
-  const { managers } = await getManagers(cookieData.token);  
+  const { managers } = await getManagers(cookieData.token);    
 
   return {
     props: { info: cookieData, users, clients, agents, areas, managers },
@@ -56,7 +57,24 @@ export async function getServerSideProps({ req }) {
 
 export default function Admin({ info, users, clients, agents, areas, managers })
 {
-  
+    const [expensesPerMonth, setExpensesPerMonth] = useState([]);
+    const [maxExpenses, setMaxExpenses] = useState(0);
+
+    const selectYear = async (year) => {
+      const { january, february, 
+        march, april, may, 
+        june, july, august,
+       september, october, november, december } = await getMonthlyExpenses(year);
+       const mx = Math.max(january, february, march, april, may, 
+        june, july, august, september, october, november, december);
+        setExpensesPerMonth([january, february, march, april, may, june, july, august, september, october, november, december]);
+        setMaxExpenses(mx);
+    }
+
+    useEffect(() => {
+      selectYear(2024);
+    }, []);
+
     return (
         <AdminLayout title="Lion King Realty Administration Panel" chosenMenu="1">
             <DefaultCard 
@@ -69,6 +87,7 @@ export default function Admin({ info, users, clients, agents, areas, managers })
             <div className='flex flex-col w-full mt-5 p-2 border border-dashed border-gray-400 bg-red-100'>
             <Select
               className="main-input"
+              onChange={selectYear}              
               style={{ width: '200px' }} 
               placeholder="Select a year here...">
               {" "}
@@ -77,6 +96,8 @@ export default function Admin({ info, users, clients, agents, areas, managers })
               <SalesChart 
                 width={900}
                 height={350}
+                expensesPerMonth={expensesPerMonth}
+                maxExpenses={maxExpenses}
               />
             </div>            
         </AdminLayout>
