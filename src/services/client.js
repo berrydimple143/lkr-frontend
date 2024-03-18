@@ -48,6 +48,18 @@ export const getClientPayments = async (id) =>
     }
 };
 
+export const updatePayment = async () =>
+{
+    try
+    {
+        const { data } = await axios.post(`${baseURL}/updatePayment`, { status: 'updatePayment' }, header);
+        return data;
+    } catch (error)
+    {
+        return error.response;
+    }
+}
+
 export const getClientInfo = async (id) =>
 {
     try

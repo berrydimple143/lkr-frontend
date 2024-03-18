@@ -2,6 +2,19 @@ import moment from 'moment';
 import dayjs from 'dayjs';
 const currencyFormatter = require('currency-formatter');
 
+export const getArrayofNumbers = (num, op, limit) =>
+{
+  let numbers = [];  
+  for(let i=0; i<parseInt(limit); i++) {
+    if(op === 'minus') {
+      numbers[i] = parseInt(num) - i;
+    } else if(op === 'plus') {
+      numbers[i] = parseInt(num) + i;
+    }    
+  }
+  return numbers;
+}
+
 export const formatCurrency = (num, cur) =>
 {
   return currencyFormatter.format(num, { code: cur });
@@ -39,6 +52,11 @@ export const computeBalance = (price, amountPaid, cur) =>
 {
   const diff = price - amountPaid;
   return currencyFormatter.format(diff, { code: cur });
+}
+
+export const computeBalanceNumber = (price, amountPaid) =>
+{
+  return price - amountPaid;  
 }
 
 export const totalCollectibles = (collectibles) => 

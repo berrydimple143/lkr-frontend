@@ -15,3 +15,15 @@ export const getMonthlyExpenses = async (year) =>
         return error.response;
     }
 };
+
+export const getMonthlyPayments = async (year) =>
+{
+    try
+    {
+        const { data } = await axios.post(`${baseURL}/monthly-payments`, { year }, header);
+        return data;
+    } catch (error)
+    {
+        return error.response;
+    }
+};

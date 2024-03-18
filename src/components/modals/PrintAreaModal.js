@@ -12,6 +12,7 @@ export default function PrintAreaModal({
     totalCollectibles,
     selectedArea,
     computeBalance,
+    computeBalanceNumber,
     formatCurrency,
     formatDate,
     closePrint,
@@ -37,6 +38,7 @@ export default function PrintAreaModal({
                     totalCollectibles={totalCollectibles}
                     selectedArea={selectedArea}
                     computeBalance={computeBalance}
+                    computeBalanceNumber={computeBalanceNumber}
                     formatCurrency={formatCurrency}
                     formatDate={formatDate}
                     totalPayment={totalPayment}

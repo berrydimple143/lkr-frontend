@@ -20,7 +20,7 @@ ChartJS.register(
   Legend
 );
 
-export default function SalesChart({ width, height, expensesPerMonth, maxExpenses }) {
+export default function SalesChart({ width, height, expensesPerMonth, paymentsPerMonth, maxExpenses, initYear }) {
    
       const labels = [
         'January', 
@@ -44,12 +44,12 @@ export default function SalesChart({ width, height, expensesPerMonth, maxExpense
         },
         title: {
           display: true,
-          text: 'Monthly Payments and Expenses',
+          text: `Monthly Payments and Expenses for the year ${initYear}`,
         },
       },
       scales: {
         y: {
-            suggestedMax: maxExpenses + 20,
+            suggestedMax: maxExpenses + 5,
         }
       }
     };    
@@ -58,7 +58,11 @@ export default function SalesChart({ width, height, expensesPerMonth, maxExpense
       datasets: [
         {
           label: 'Payments',
-          data: [50, 100, 90, 70, 300, 50, 100, 90, 70, 300, 200, 130],
+          data: [
+            paymentsPerMonth[0], paymentsPerMonth[1], paymentsPerMonth[2], 
+            paymentsPerMonth[3], paymentsPerMonth[4], paymentsPerMonth[5], 
+            paymentsPerMonth[6], paymentsPerMonth[7], paymentsPerMonth[8], 
+            paymentsPerMonth[9], paymentsPerMonth[10], paymentsPerMonth[11]],
           backgroundColor: '#1B9B09',
         },
         {

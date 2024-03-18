@@ -10,7 +10,7 @@ import MainModal from '../../../components/modals/MainModal';
 import DeleteModal from '../../../components/modals/DeleteModal';
 import AreaTab from "@/components/tabs/AreaTab";
 import PrintAreaModal from "@/components/modals/PrintAreaModal";
-import { formatDate, formatCurrency, totalPayment, computeBalance, totalCollectibles } from '@/services/helpers';
+import { formatDate, formatCurrency, totalPayment, computeBalance, totalCollectibles, computeBalanceNumber } from '@/services/helpers';
 import { getAreas, addArea, updateArea, getArea, deleteArea, getCollectablesByArea } from '../../../services/area';
 
 export async function getServerSideProps({ req }) {
@@ -173,6 +173,7 @@ export default function Area({info, areas })
                 totalPayment={totalPayment}
                 totalCollectibles={totalCollectibles}
                 computeBalance={computeBalance}
+                computeBalanceNumber={computeBalanceNumber}
                 formatCurrency={formatCurrency}
                 formatDate={formatDate}
                 mtitle="Collectibles"

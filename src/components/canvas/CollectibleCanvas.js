@@ -11,6 +11,7 @@ const CollectibleCanvas = React.forwardRef((props, ref) => {
             totalPayment={props.totalPayment} 
             selectedArea={props.selectedArea}
             computeBalance={props.computeBalance}
+            computeBalanceNumber={props.computeBalanceNumber}
             formatCurrency={props.formatCurrency}
             formatDate={props.formatDate}
         />

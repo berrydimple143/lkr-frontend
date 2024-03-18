@@ -7,6 +7,7 @@ const Collectible = ({
         selectedCollectables, 
         selectedArea, 
         computeBalance, 
+        computeBalanceNumber,
         totalPayment, 
         formatCurrency, 
         totalCollectibles,
@@ -41,10 +42,13 @@ const Collectible = ({
                                     First Name
                                 </th>
                                 <th scope="col" className="py-2 w-full flex">
-                                    Middle Name
+                                    Block
                                 </th>
                                 <th scope="col" className="py-2 w-3/4 flex">
-                                    Ext. Name
+                                    Lot
+                                </th>
+                                <th scope="col" className="py-2 w-3/4 flex">
+                                    Contact #
                                 </th>
                                 <th scope="col" className="py-2 w-full flex justify-end">
                                     Parcel Price
@@ -59,7 +63,7 @@ const Collectible = ({
                         </thead>
                         <tbody>                                               
                             { selectedCollectables && selectedCollectables.map((collectable, index) =>              
-                                <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-300 flex space-x-1">                                    
+                                <tr key={index} className={` ${ computeBalanceNumber(collectable.contact.price, totalPayment(collectable.payments)) == 0.00 ? 'bg-green-500 text-white': 'bg-white' } border-b dark:bg-gray-800 dark:border-gray-700 border-gray-300 flex space-x-1`}>                                    
                                     <td className="p-2 w-10">
                                         { index + 1 }
                                     </td>
@@ -70,10 +74,13 @@ const Collectible = ({
                                         { collectable.first_name }
                                     </td>
                                     <td className="py-2 w-full">
-                                        { collectable.middle_name }
+                                        { collectable.contact.block }
                                     </td>
                                     <td className="py-2 w-3/4">
-                                        { collectable.extension_name }
+                                        { collectable.contact.lot }
+                                    </td>
+                                    <td className="py-2 w-3/4">
+                                        { collectable.contact.mobile }
                                     </td>
                                     <td className="py-2 w-full flex justify-end">
                                         { formatCurrency(collectable.contact.price, 'PHP') }                                 
